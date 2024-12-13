@@ -57,16 +57,19 @@ def update_track_info():
                         'total_duration_ms': current_track['item']['duration_ms'],
                         'progress_ms': current_track['progress_ms']
                     }
+                    logging.debug(f"Updated song_info: {song_info}")
                 else:
                     song_info = {'playing': False}
-            logging.debug(f"Updated song_info: {song_info}")
+                    logging.debug("No track playing or track info unavailable.")
         except Exception as e:
             logging.error("Error fetching track info", exc_info=e)
         time.sleep(5)
 
+
 @app.route('/current-track', methods=['GET'])
 def current_track():
     with song_info_lock:
+        logging.debug(f"Serving song_info: {song_info}")
         return jsonify(song_info)
 
 if __name__ == '__main__':
