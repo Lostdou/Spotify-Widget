@@ -46,6 +46,7 @@ def update_track_info():
     while True:
         try:
             current_track = spotify_client.current_user_playing_track()
+            logging.debug(f"Current track API response: {current_track}")
             with song_info_lock:
                 if current_track and current_track.get('is_playing'):
                     song_info = {
@@ -58,7 +59,7 @@ def update_track_info():
                     }
                 else:
                     song_info = {'playing': False}
-            logging.debug(f"Updated song info: {song_info}")
+            logging.debug(f"Updated song_info: {song_info}")
         except Exception as e:
             logging.error("Error fetching track info", exc_info=e)
         time.sleep(5)
