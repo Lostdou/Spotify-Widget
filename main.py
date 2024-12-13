@@ -29,13 +29,13 @@ spotify_client = sp.Spotify(auth_manager=SpotifyOAuth(
     scope='user-read-currently-playing'
 ))
 
-# Fetch user info
-try:
-    user_info = sp.me()
+# Fetch user infotry:
+    user_info = spotify_client.me()
     logging.info(f"Logged in as: {user_info['display_name']}")
 except Exception as e:
     logging.error("Failed to authenticate with Spotify API", exc_info=e)
     sys.exit(1)
+
 
 # Global variables for track info
 song_info = {}
