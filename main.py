@@ -5,11 +5,15 @@ import time
 import threading
 import os
 import sys
+import logging
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
+from threading import Lock
 
 # Utilizo UTF-8 para evitar problemas con los caracteres especiales 
 sys.stdout.reconfigure(encoding='utf-8')
+
+logging.basicConfig(level=logging.DEBUG)
 
 app = Flask(__name__)
 CORS(app)
@@ -32,25 +36,24 @@ previous_track_id = None
 def update_track_info():
     global song_info, previous_track_id
     while True:
-        current_track = sp.current_user_playing_track()
-        if current_track is not None and current_track['is_playing']:
-            song_info= {
-                'playing': 'true',
-                'song_name' : current_track['item']['name'],
-                'artist_name' : current_track['item']['artists'][0]['name'],
-                'cover_image_url' : current_track['item']['album']['images'][0]['url'],
-                'total_duration_ms' : current_track['item']['duration_ms'],
-                'progress_ms' : current_track['progress_ms']
-            }
-            print (song_info)
-
-
-            time.sleep(5)
-        else:
-            song_info ={
-                'playing': 'false'
-            }
-            time.sleep(5)
+        try:
+            current_track = spotify_client.current_user_playing_track()
+            with song_info_lock:
+                if current_track and current_track['is_playing']:
+                    song_info = {
+                        'playing': True,
+                        'song_name': current_track['item']['name'],
+                        'artist_name': current_track['item']['artists'][0]['name'],
+                        'cover_image_url': current_track['item']['album']['images'][0]['url'],
+                        'total_duration_ms': current_track['item']['duration_ms'],
+                        'progress_ms': current_track['progress_ms']
+                    }
+                else:
+                    song_info = {'playing': False}
+            logging.debug(f"Updated track info: {song_info}")
+        except Exception as e:
+            logging.error("Error updating track info", exc_info=e)
+        time.sleep(5)
 
 
 @app.route('/current-track', methods=['GET'])
