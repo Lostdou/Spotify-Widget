@@ -1,4 +1,4 @@
-import spotipy
+import spotipy as sp
 from flask import Flask, jsonify
 from flask_cors import CORS
 import time
@@ -22,7 +22,7 @@ CORS(app)
 
 # Load environment variables and initialize Spotify client
 load_dotenv()
-spotify_client = spotipy.Spotify(auth_manager=SpotifyOAuth(
+spotify_client = sp.Spotify(auth_manager=SpotifyOAuth(
     client_id=os.getenv('SPOTIFY_CLIENT_ID'),
     client_secret=os.getenv('SPOTIFY_CLIENT_SECRET'),
     redirect_uri=os.getenv('SPOTIFY_REDIRECT_URI'),
@@ -31,7 +31,7 @@ spotify_client = spotipy.Spotify(auth_manager=SpotifyOAuth(
 
 # Fetch user info
 try:
-    user_info = spotify_client.me()
+    user_info = sp.me()
     logging.info(f"Logged in as: {user_info['display_name']}")
 except Exception as e:
     logging.error("Failed to authenticate with Spotify API", exc_info=e)
@@ -48,7 +48,7 @@ def update_track_info():
             current_track = spotify_client.current_user_playing_track()
             logging.debug(f"Current track API response: {current_track}")
             with song_info_lock:
-                if current_track and current_track.get('is_playing'):
+                if current_track is not None and current_track['is_playing']:
                     song_info = {
                         'playing': True,
                         'song_name': current_track['item']['name'],
