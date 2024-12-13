@@ -33,7 +33,7 @@ Como el titulo, el artista, la portada, duración total y en que minuto y segund
 
 ## ⚙️ Installation/Instalación
 ### EN:
-In order to start this bot, follow the steps below:
+In order to start this script, follow the steps below:
 
 1- Clone the repository:
 ```bash
@@ -47,13 +47,13 @@ pip3 install flask flask_cors spotipy
 ```
 3- Create a ".env" file in the same folder where you cloned the script and enter your app's tokens there
 
-4- Now simply enter your bot to your server, run the script and that's it
+4- Now simply run the script and that's it
 ```bash
 python -m main.py
 ```
 
 ### ES:
-Para poder iniciar este bot, sigue los pasos a continuación:
+Para poder iniciar este script, sigue los pasos a continuación:
 
 1-  Clona el repositorio:
 ```bash
@@ -67,7 +67,7 @@ pip3 install flask flask_cors spotipy
 ```
 3- Crea un archivo ".env" en la misma carpeta donde clonaste el script e ingresa ahi los tokens de tu app
 
-4- Ahora simplemente ingresa tu bot a tu server, ejecuta el script y ya está
+4- Ahora simplemente ejecuta el script y ya está
 ```bash
 python -m main.py
 ```
