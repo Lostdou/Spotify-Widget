@@ -23,6 +23,9 @@ sp = sp.Spotify(auth_manager=SpotifyOAuth(
     scope='user-read-currently-playing'
 ))
 
+user_info = spotify.me()
+print(f"Logged in as: {user_info['display_name']}")
+
 song_info = {}
 previous_track_id = None
 
@@ -39,6 +42,7 @@ def update_track_info():
                 'total_duration_ms' : current_track['item']['duration_ms'],
                 'progress_ms' : current_track['progress_ms']
             }
+            print (song_infO)
 
 
             time.sleep(5)
