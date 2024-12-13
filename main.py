@@ -23,7 +23,7 @@ sp = sp.Spotify(auth_manager=SpotifyOAuth(
     scope='user-read-currently-playing'
 ))
 
-user_info = spotify.me()
+user_info = sp.me()
 print(f"Logged in as: {user_info['display_name']}")
 
 song_info = {}
