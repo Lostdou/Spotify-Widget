@@ -42,7 +42,7 @@ def update_track_info():
                 'total_duration_ms' : current_track['item']['duration_ms'],
                 'progress_ms' : current_track['progress_ms']
             }
-            print (song_infO)
+            print (song_info)
 
 
             time.sleep(5)
