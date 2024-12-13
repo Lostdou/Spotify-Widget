@@ -29,13 +29,13 @@ spotify_client = sp.Spotify(auth_manager=SpotifyOAuth(
     scope='user-read-currently-playing'
 ))
 
-# Fetch user infotry:
+# Fetch user info
+try:
     user_info = spotify_client.me()
     logging.info(f"Logged in as: {user_info['display_name']}")
 except Exception as e:
     logging.error("Failed to authenticate with Spotify API", exc_info=e)
     sys.exit(1)
-
 
 # Global variables for track info
 song_info = {}
@@ -64,7 +64,6 @@ def update_track_info():
         except Exception as e:
             logging.error("Error fetching track info", exc_info=e)
         time.sleep(5)
-
 
 @app.route('/current-track', methods=['GET'])
 def current_track():
